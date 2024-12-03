@@ -21,8 +21,8 @@ export default function RootLayout({
       <head>
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <title>{metadata.title}</title>
-        <meta name="description" content={metadata.description} />
+        <title>{metadata.title ?? "Default Title"}</title>
+        <meta name="description" content={metadata.description ?? "Default description"} />
       </head>
       <body className={inter.className}>
         <Navbar />
