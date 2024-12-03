@@ -32,7 +32,7 @@ const projects: Project[] = [
     title: "Django Website",
     description: "A Django-based website featuring 3D integration to showcase advanced robotic solutions. Users can interact with 3D models, explore real-time simulations, and learn about the cutting-edge technology driving automation in industries.",
     githubLink: "https://github.com/mujtabachandio/Django_Website",
-    liveLink: "https://django-project-two-liard.vercel.app/",
+    liveLink: "https://github.com/mujtabachandio/Django_Website",
     image: "/dj.png",
     tags: ["Django","Html", "Tailwind CSS", "Javascript",],
   },
