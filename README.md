@@ -106,10 +106,4 @@ This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) f
 
 ---
 
-## Download the README File
-
-You can download this `README.md` file by clicking [here](./README.md).
-
----
-
 Feel free to customize this README file further to suit your needs. Let me know if you need any additional help! 🚀
