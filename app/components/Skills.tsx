@@ -15,7 +15,6 @@ import {
     IconBrandNextjs, // Import the correct Next.js icon
     IconBrandPrisma,
     IconLetterG,
-    icons,
     IconBrandMysql, // Import the correct Postman icon
   } from "@tabler/icons-react";
   import { motion } from "framer-motion";
