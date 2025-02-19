@@ -2,28 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
-}
-
-/* Style the scrollbar */
-::-webkit-scrollbar {
-  width: 12px; /* Width of the scrollbar */
-  height: 12px; /* Height of the scrollbar for horizontal scrolling */
-}
-
-/* Style the scrollbar track */
-::-webkit-scrollbar-track {
-  background: black; /* Track color */
-  border-radius: 10px;
-}
-
-/* Style the scrollbar thumb (the draggable part) */
-::-webkit-scrollbar-thumb {
-  background-color: gray; /* Thumb color */
-  border-radius: 10px;
-  border: 2px solid black; /* Add border around the thumb */
-}
-::-webkit-scrollbar-corner {
-  background: black;
+body{
+    background-color: black;
+    scroll-behavior: smooth ;
 }

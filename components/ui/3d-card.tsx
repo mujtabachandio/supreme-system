@@ -9,7 +9,6 @@ import React, {
   useEffect,
 } from "react";
 
-// Context for mouse enter state
 const MouseEnterContext = createContext<
   [boolean, React.Dispatch<React.SetStateAction<boolean>>] | undefined
 >(undefined);
@@ -25,14 +24,7 @@ export const CardContainer = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMouseEntered, setIsMouseEntered] = useState(false);
-  const [isClient, setIsClient] = useState(false); // Track if it's client-side
 
-  // Ensure the code runs only on the client-side
-  useEffect(() => {
-    setIsClient(true); // Set client-side flag
-  }, []);
-
-  // Mouse event handlers
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const { left, top, width, height } =
@@ -42,26 +34,23 @@ export const CardContainer = ({
     containerRef.current.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
   };
 
-  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseEnter = () => {
     setIsMouseEntered(true);
     if (!containerRef.current) return;
   };
 
-  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseLeave = () => {
     if (!containerRef.current) return;
     setIsMouseEntered(false);
     containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
   };
-
-  if (!isClient) {
-    // Return null during SSR (server-side render)
-    return null;
-  }
-
   return (
     <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
       <div
-        className={cn("py-20 flex items-center justify-center", containerClassName)}
+        className={cn(
+          "py-20 flex items-center justify-center",
+          containerClassName
+        )}
         style={{
           perspective: "1000px",
         }}
@@ -126,22 +115,14 @@ export const CardItem = ({
   rotateX?: number | string;
   rotateY?: number | string;
   rotateZ?: number | string;
-  [key: string]: any;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isMouseEntered] = useMouseEnter();
-  const [isClient, setIsClient] = useState(false); // Client-side state
-
-  // Ensure the code runs only on the client-side
-  useEffect(() => {
-    setIsClient(true); // Set client-side flag
-  }, []);
 
   useEffect(() => {
     handleAnimations();
   }, [isMouseEntered]);
 
-  // Apply animation based on mouse state
   const handleAnimations = () => {
     if (!ref.current) return;
     if (isMouseEntered) {
@@ -150,11 +131,6 @@ export const CardItem = ({
       ref.current.style.transform = `translateX(0px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)`;
     }
   };
-
-  if (!isClient) {
-    // Return null during SSR (server-side render)
-    return null;
-  }
 
   return (
     <Tag
@@ -167,7 +143,7 @@ export const CardItem = ({
   );
 };
 
-// Custom hook for using mouse-enter context
+// Create a hook to use the context
 export const useMouseEnter = () => {
   const context = useContext(MouseEnterContext);
   if (context === undefined) {

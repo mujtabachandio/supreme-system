@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion,} from "framer-motion";
 import { cn } from "@/lib/utils";
 
 export const FlipWords = ({
@@ -14,14 +14,8 @@ export const FlipWords = ({
 }) => {
   const [currentWord, setCurrentWord] = useState(words[0]);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
-  const [isClient, setIsClient] = useState(false);
 
-  // Check if the component is mounted on the client side
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  // Thanks for the fix Julian - https://github.com/Julian-AT
+  // thanks for the fix Julian - https://github.com/Julian-AT
   const startAnimation = useCallback(() => {
     const word = words[words.indexOf(currentWord) + 1] || words[0];
     setCurrentWord(word);
@@ -34,10 +28,6 @@ export const FlipWords = ({
         startAnimation();
       }, duration);
   }, [isAnimating, duration, startAnimation]);
-
-  if (!isClient) {
-    return <span>{words.join(", ")}</span>; // Render plain text before mounting
-  }
 
   return (
     <AnimatePresence
@@ -68,12 +58,12 @@ export const FlipWords = ({
           position: "absolute",
         }}
         className={cn(
-          "z-10 inline-block relative text-left text-yellow-400 dark:text-neutral-100 px-2",
+          "z-10 inline-block relative text-left text-yellow-500 px-2",
           className
         )}
         key={currentWord}
       >
-        {/* Render words with animations */}
+        {/* edit suggested by Sajal: https://x.com/DewanganSajal */}
         {currentWord.split(" ").map((word, wordIndex) => (
           <motion.span
             key={word + wordIndex}

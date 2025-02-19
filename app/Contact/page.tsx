@@ -67,7 +67,7 @@ const ContactForm: React.FC = () => {
 
   return (
     <div className="h-screen relative w-full bg-black flex flex-col items-center justify-center overflow-hidden">
-      <BackgroundLines>
+      <BackgroundLines className="absolute bg-black">
         <h1>.</h1>
       </BackgroundLines>
       <motion.div

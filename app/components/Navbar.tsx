@@ -1,79 +1,157 @@
-"use client"
-import React, { useState } from 'react';
+'use client';
+import React, { useState, useEffect, useMemo } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
-import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
+  const [scrolled, setScrolled] = useState(false);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
+  const router = useRouter();
+  const pathname = usePathname(); // Get current route
+
+  // Memoized navItems to prevent unnecessary re-renders
+  const navItems = useMemo(
+    () => [
+      { id: 'home', label: 'Home' },
+      { id: 'about', label: 'About' },
+      { id: 'skills', label: 'Skills' },
+      { id: 'project', label: 'Projects' },
+      { id: 'contact', label: 'Contact' }, // Contact is a separate route
+    ],
+    []
+  );
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = navItems.map((item) => {
+        const element = document.getElementById(item.id);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          return { id: item.id, top: Math.abs(rect.top) };
+        }
+        return { id: item.id, top: Infinity };
+      });
+
+      const closest = sections.reduce((prev, curr) => (prev.top < curr.top ? prev : curr));
+
+      setActiveSection(closest.id);
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [navItems]); // Added navItems to dependencies
+
+  // Handle navigation and scrolling
+  const scrollToSection = (id: string) => {
+    setIsOpen(false); // Close the mobile menu
+
+    if (id === 'contact') {
+      router.push('/contact');
+      return;
+    }
+
+    if (pathname !== '/') {
+      router.push(`/#${id}`);
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    } else {
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
   };
 
-  const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '#About', label: 'About' },
-    { href: '#Skills', label: 'Skills' },
-    { href: '#Project', label: 'Projects' },
-    { href: '/Contact', label: 'Contact' },
-  ];
+  // Scroll to section on page load if a hash is present
+  useEffect(() => {
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+      setTimeout(() => {
+        document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
+  }, []);
 
   return (
-    <nav className="bg-black bg-opacity-0 backdrop-blur-md fixed top-0 left-0 w-full z-50">
-      <div className="max-w-1xl mx-auto px-8">
-        <div className="flex justify-between items-center h-24">
+    <motion.nav
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className={`fixed w-full z-50 transition-all duration-300 ${
+        scrolled ? 'bg-black shadow-md' : 'bg-transparent'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center ">
-              <span className="text-1xl font-bold text-white">
-                G<span className='text-green-400 text-1xl'>.</span>M<span className='text-green-400 text-1xl'>.</span>C
-              </span>
-            </Link>
+            <span style={{ fontFamily: "var(--font-audiowide), sans-serif" }} className="text-2xl font-bold hover:text-white text-gray-300 duration-300">G.M.C</span>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="max-md:hidden flex space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="text-1xl text-white duration-300 hover:text-black hover:bg-white px-3 py-2 rounded-md font-bold transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-baseline space-x-4">
+              {navItems.map((item) => (
+                <button
+                style={{ fontFamily: "var(--font-audiowide), sans-serif" }}
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className={`relative transition-all duration-200 px-3 py-2 text-2xl ${
+                    activeSection === item.id ? 'text-white' : 'text-gray-300 hover:text-white'
+                  }`}
+                >
+                  {item.label}
+                  {activeSection === item.id && (
+                    <motion.span layoutId="underline" className="absolute bottom-0 left-0 w-full h-0.5 bg-white" />
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile menu button */}
           <div className="md:hidden">
             <button
-              onClick={toggleMenu}
-              className="text-green-400 focus:outline-none"
+            style={{ fontFamily: "var(--font-audiowide), sans-serif" }}
+              onClick={() => setIsOpen(!isOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-gray-600 focus:outline-none"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="block text-white hover:text-green-400 px-3 py-2 rounded-md text-base font-medium"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
       </div>
-    </nav>
+
+      {/* Mobile Navigation */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: isOpen ? 1 : 0, y: isOpen ? 0 : -20 }}
+        transition={{ duration: 0.3 }}
+        className={`md:hidden bg-black ${isOpen ? 'block' : 'hidden'}`}
+      >
+        <div className="px-2 pt-2 pb-3 space-y-1">
+          {navItems.map((item) => (
+            <button
+            style={{ fontFamily: "var(--font-audiowide), sans-serif" }}
+              key={item.id}
+              onClick={() => {
+                setIsOpen(false);
+                setTimeout(() => scrollToSection(item.id), 200);
+              }}
+              className={`block w-full text-left px-3 py-2 text-base font-medium transition-colors duration-200 ${
+                activeSection === item.id ? 'text-[#7A0BC0]' : 'text-white hover:text-[#7A0BC0]'
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </motion.div>
+    </motion.nav>
   );
 };
 
