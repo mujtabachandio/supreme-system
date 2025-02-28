@@ -50,7 +50,7 @@ const Navbar = () => {
     setIsOpen(false); // Close the mobile menu
 
     if (id === 'contact') {
-      router.push('/contact');
+      router.push('/Contact');
       return;
     }
 
