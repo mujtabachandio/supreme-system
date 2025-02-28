@@ -49,18 +49,18 @@ export default function About() {
 
                 <div className="text-sm xs:text-base sm:text-lg text-gray-300 leading-relaxed space-y-3 sm:space-y-4">
                   <p>
-                    I'm <strong className="text-green-500">Mujtaba</strong>, a passionate developer from Pakistan currently pursuing a diploma in Computer Science from Karachi University. I'm also learning Generative AI through GIAIC, Governor Sindh IT initiatives, and Python programming from SMIT Saylani Mass IT Training Program.
+                    I am <strong className="text-green-500">Mujtaba</strong>, a passionate developer from Pakistan currently pursuing a diploma in Computer Science from Karachi University. I am also learning Generative AI through GIAIC, Governor Sindh IT initiatives, and Python programming from SMIT Saylani Mass IT Training Program.
                   </p>
                   <p>
                     I am an expert in <strong>Front-End Development, Data Science, Machine Learning (ML)</strong>, and also have experience working with <strong>Content Management Systems (CMS)</strong>.
                   </p>
                   <p>
-                    Coding is not just a profession for me—it's a passion. I am always eager to learn and grow in this fast-evolving field of technology.
+                    Coding is not just a profession for me—its a passion. I am always eager to learn and grow in this fast-evolving field of technology.
                   </p>
                   <p>
                     My goal is to become a top-tier developer by continuously improving my skills, exploring the latest advancements in web technologies, AI, and machine learning.
                   </p>
-                  <p><em>Let's connect and create something remarkable together!</em></p>
+                  <p><em>Lets connect and create something remarkable together!</em></p>
                 </div>
 
                 {/* Interactive Buttons */}

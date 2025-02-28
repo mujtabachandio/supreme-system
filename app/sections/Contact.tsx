@@ -24,7 +24,7 @@ const Contact = () => {
           </p>
           <ShimmerButton onClick={() => router.push("/Contact")} className="shadow-2xl px-6 py-3 text-sm sm:text-base lg:text-lg">
             <span className="whitespace-pre-wrap text-center font-medium leading-none tracking-tight text-white">
-              LET'S CONTACT
+              LETS CONTACT
             </span>
           </ShimmerButton>
         </div>
